@@ -37,6 +37,7 @@ import java.io.IOException;
  */
 public class HTTPEventListenerProvider implements EventListenerProvider {
 	private final OkHttpClient httpClient = new OkHttpClient();
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private Set<EventType> excludedEvents;
     private Set<OperationType> excludedAdminOperations;
     private String serverUri;
@@ -62,9 +63,8 @@ public class HTTPEventListenerProvider implements EventListenerProvider {
         } else {
             String stringEvent = toString(event);
             try {
-            	RequestBody formBody = new FormBody.Builder()
-                        .add("json", stringEvent)
-                        .build();
+
+            	okhttp3.RequestBody jsonRequestBody = okhttp3.RequestBody.create(JSON, stringEvent);
 
                 okhttp3.Request.Builder builder = new Request.Builder()
                         .url(this.serverUri)
@@ -75,7 +75,7 @@ public class HTTPEventListenerProvider implements EventListenerProvider {
                 	builder.addHeader("Authorization", "Basic " + this.username + ":" + this.password.toCharArray());
                 }
                 
-                Request request = builder.post(formBody)
+                Request request = builder.post(jsonRequestBody)
                         .build();
                 
             	Response response = httpClient.newCall(request).execute();
@@ -103,9 +103,7 @@ public class HTTPEventListenerProvider implements EventListenerProvider {
         } else {
             String stringEvent = toString(event);
             try {
-            	RequestBody formBody = new FormBody.Builder()
-                        .add("json", stringEvent)
-                        .build();
+            	okhttp3.RequestBody jsonRequestBody = okhttp3.RequestBody.create(JSON, stringEvent);
 
                 okhttp3.Request.Builder builder = new Request.Builder()
                         .url(this.serverUri)
@@ -116,7 +114,7 @@ public class HTTPEventListenerProvider implements EventListenerProvider {
                 	builder.addHeader("Authorization", "Basic " + this.username + ":" + this.password.toCharArray());
                 }
                 
-                Request request = builder.post(formBody)
+                Request request = builder.post(jsonRequestBody)
                         .build();
                 
             	Response response = httpClient.newCall(request).execute();
@@ -140,31 +138,31 @@ public class HTTPEventListenerProvider implements EventListenerProvider {
     private String toString(Event event) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("{'type': '");
+        sb.append("{\"type\": \"");
         sb.append(event.getType());
-        sb.append("', 'realmId': '");
+        sb.append("\", \"realmId\": \"");
         sb.append(event.getRealmId());
-        sb.append("', 'clientId': '");
+        sb.append("\", \"clientId\": \"");
         sb.append(event.getClientId());
-        sb.append("', 'userId': '");
+        sb.append("\", \"userId\": \"");
         sb.append(event.getUserId());
-        sb.append("', 'ipAddress': '");
+        sb.append("\", \"ipAddress\": \"");
         sb.append(event.getIpAddress());
-        sb.append("'");
+        sb.append("\"");
 
         if (event.getError() != null) {
-            sb.append(", 'error': '");
+            sb.append(", \"error\": \"");
             sb.append(event.getError());
-            sb.append("'");
+            sb.append("\"");
         }
-        sb.append(", 'details': {");
+        sb.append(", \"details\": {");
         if (event.getDetails() != null) {
             for (Map.Entry<String, String> e : event.getDetails().entrySet()) {
-                sb.append("'");
+                sb.append("\"");
                 sb.append(e.getKey());
-                sb.append("': '");
+                sb.append("\": \"");
                 sb.append(e.getValue());
-                sb.append("', ");
+                sb.append("\", ");
             }
         sb.append("}}");
         }
@@ -176,24 +174,24 @@ public class HTTPEventListenerProvider implements EventListenerProvider {
     private String toString(AdminEvent adminEvent) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("{'type': '");
+        sb.append("{\"type\": \"");
         sb.append(adminEvent.getOperationType());
-        sb.append("', 'realmId': '");
+        sb.append("\", \"realmId\": \"");
         sb.append(adminEvent.getAuthDetails().getRealmId());
-        sb.append("', 'clientId': '");
+        sb.append("\", \"clientId\": \"");
         sb.append(adminEvent.getAuthDetails().getClientId());
-        sb.append("', 'userId': '");
+        sb.append("\", \"userId\": \"");
         sb.append(adminEvent.getAuthDetails().getUserId());
-        sb.append("', 'ipAddress': '");
+        sb.append("\", \"ipAddress\": \"");
         sb.append(adminEvent.getAuthDetails().getIpAddress());
-        sb.append("', 'resourcePath': '");
+        sb.append("\", \"resourcePath\": \"");
         sb.append(adminEvent.getResourcePath());
-        sb.append("'");
+        sb.append("\"");
 
         if (adminEvent.getError() != null) {
-            sb.append(", 'error': '");
+            sb.append(", \"error\": \"");
             sb.append(adminEvent.getError());
-            sb.append("'");
+            sb.append("\"");
         }
         sb.append("}");
         return sb.toString();

@@ -68,6 +68,8 @@ public class HTTPEventListenerProviderFactory implements EventListenerProviderFa
         username = config.get("username", null);
         password = config.get("password", null);
         topic = config.get("topic", "keycloak/events");
+
+        System.out.println("Forwarding keycloak events to: " + serverUri);
     }
 
     @Override
