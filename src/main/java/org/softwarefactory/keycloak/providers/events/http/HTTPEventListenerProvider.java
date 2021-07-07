@@ -88,7 +88,8 @@ public class HTTPEventListenerProvider implements EventListenerProvider {
                 System.out.println(response.body().string());
             } catch(Exception e) {
                 // ?
-                System.out.println("UH OH!! " + e.toString());
+                System.out.println("Failed to forward webhook event " + e.toString());
+                System.out.println("Request body string: " + stringEvent);
                 e.printStackTrace();
                 return;
             }
@@ -102,6 +103,7 @@ public class HTTPEventListenerProvider implements EventListenerProvider {
             return;
         } else {
             String stringEvent = toString(event);
+
             try {
             	okhttp3.RequestBody jsonRequestBody = okhttp3.RequestBody.create(JSON, stringEvent);
 
@@ -127,7 +129,8 @@ public class HTTPEventListenerProvider implements EventListenerProvider {
                 System.out.println(response.body().string());
             } catch(Exception e) {
                 // ?
-                System.out.println("UH OH!! " + e.toString());
+                System.out.println("Failed to forward webhook event " + e.toString());
+                System.out.println("Request body string: " + stringEvent);
                 e.printStackTrace();
                 return;
             }
