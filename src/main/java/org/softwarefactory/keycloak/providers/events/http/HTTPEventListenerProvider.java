@@ -88,7 +88,7 @@ public class HTTPEventListenerProvider implements EventListenerProvider {
                 System.out.println(response.body().string());
             } catch(Exception e) {
                 // ?
-                System.out.println("Failed to forward webhook event " + e.toString());
+                System.out.println("Failed to forward webhook Event " + e.toString());
                 System.out.println("Request body string: " + stringEvent);
                 e.printStackTrace();
                 return;
@@ -129,7 +129,7 @@ public class HTTPEventListenerProvider implements EventListenerProvider {
                 System.out.println(response.body().string());
             } catch(Exception e) {
                 // ?
-                System.out.println("Failed to forward webhook event " + e.toString());
+                System.out.println("Failed to forward webhook AdminEvent " + e.toString());
                 System.out.println("Request body string: " + stringEvent);
                 e.printStackTrace();
                 return;
@@ -166,7 +166,7 @@ public class HTTPEventListenerProvider implements EventListenerProvider {
                 sb.append(e.getKey());
                 sb.append("\": \"");
                 sb.append(e.getValue());
-                if (i < event.getDetails().size() - 1) {
+                if (i < event.getDetails().size()) {
                     sb.append("\", ");
                 }
             }
