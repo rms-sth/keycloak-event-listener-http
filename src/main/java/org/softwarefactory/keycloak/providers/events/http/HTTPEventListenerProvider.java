@@ -166,9 +166,11 @@ public class HTTPEventListenerProvider implements EventListenerProvider {
                 sb.append(e.getKey());
                 sb.append("\": \"");
                 sb.append(e.getValue());
-                if (i < event.getDetails().size()) {
-                    sb.append("\", ");
+                sb.append("\"");
+                if (i < event.getDetails().entrySet().size() - 1) {
+                    sb.append(", ");
                 }
+                i = i + 1;
             }
         sb.append("}}");
         }
