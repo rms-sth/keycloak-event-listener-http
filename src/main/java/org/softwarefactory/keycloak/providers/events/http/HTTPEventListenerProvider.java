@@ -57,43 +57,43 @@ public class HTTPEventListenerProvider implements EventListenerProvider {
 
     @Override
     public void onEvent(Event event) {
-        // Ignore excluded events
-        if (excludedEvents != null && excludedEvents.contains(event.getType())) {
-            return;
-        } else {
-            String stringEvent = toString(event);
-            try {
+        // // Ignore excluded events
+        // if (excludedEvents != null && excludedEvents.contains(event.getType())) {
+        //     return;
+        // } else {
+        //     String stringEvent = toString(event);
+        //     try {
 
-            	okhttp3.RequestBody jsonRequestBody = okhttp3.RequestBody.create(JSON, stringEvent);
+        //     	okhttp3.RequestBody jsonRequestBody = okhttp3.RequestBody.create(JSON, stringEvent);
 
-                okhttp3.Request.Builder builder = new Request.Builder()
-                        .url(this.serverUri)
-                        .addHeader("User-Agent", "KeycloakHttp Bot");
+        //         okhttp3.Request.Builder builder = new Request.Builder()
+        //                 .url(this.serverUri)
+        //                 .addHeader("User-Agent", "KeycloakHttp Bot");
             	
 
-                if (this.username != null && this.password != null) {
-                	builder.addHeader("Authorization", "Basic " + this.username + ":" + this.password.toCharArray());
-                }
+        //         if (this.username != null && this.password != null) {
+        //         	builder.addHeader("Authorization", "Basic " + this.username + ":" + this.password.toCharArray());
+        //         }
                 
-                Request request = builder.post(jsonRequestBody)
-                        .build();
+        //         Request request = builder.post(jsonRequestBody)
+        //                 .build();
                 
-            	Response response = httpClient.newCall(request).execute();
+        //     	Response response = httpClient.newCall(request).execute();
             	
-            	if (!response.isSuccessful()) {
-            		throw new IOException("Unexpected code " + response);
-            	}
+        //     	if (!response.isSuccessful()) {
+        //     		throw new IOException("Unexpected code " + response);
+        //     	}
 
-                // Get response body
-                System.out.println(response.body().string());
-            } catch(Exception e) {
-                // ?
-                System.out.println("Failed to forward webhook Event " + e.toString());
-                System.out.println("Request body string: " + stringEvent);
-                e.printStackTrace();
-                return;
-            }
-        }
+        //         // Get response body
+        //         System.out.println(response.body().string());
+        //     } catch(Exception e) {
+        //         // ?
+        //         System.out.println("Failed to forward webhook Event " + e.toString());
+        //         System.out.println("Request body string: " + stringEvent);
+        //         e.printStackTrace();
+        //         return;
+        //     }
+        // }
     }
 
     @Override
