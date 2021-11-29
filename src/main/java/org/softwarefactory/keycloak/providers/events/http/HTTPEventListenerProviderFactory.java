@@ -64,10 +64,10 @@ public class HTTPEventListenerProviderFactory implements EventListenerProviderFa
             }
         }
 
-        serverUri = config.get("serverUri", "http://nginx/frontend_dev.php/webhook/keycloak");
-        username = config.get("username", null);
-        password = config.get("password", null);
-        topic = config.get("topic", "keycloak/events");
+        serverUri = System.getenv("WEBHOOK_SERVER_URI");
+        username = System.getenv("WEBHOOK_USERNAME");
+        password = System.getenv("WEBHOOK_PASSWORD");
+        topic = System.getenv("topic");
 
         System.out.println("Forwarding keycloak events to: " + serverUri);
     }
