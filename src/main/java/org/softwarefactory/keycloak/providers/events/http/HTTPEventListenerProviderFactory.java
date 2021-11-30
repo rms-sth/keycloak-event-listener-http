@@ -65,8 +65,8 @@ public class HTTPEventListenerProviderFactory implements EventListenerProviderFa
         }
 
         serverUri = System.getenv("WEBHOOK_SERVER_URI");
-        username = System.getenv("WEBHOOK_USERNAME");
-        password = System.getenv("WEBHOOK_PASSWORD");
+        username = System.getenv("KEYCLOAK_AUTH_ADMIN_USER");
+        password = System.getenv("KEYCLOAK_AUTH_ADMIN_PASSWORD");
         topic = System.getenv("topic");
 
         System.out.println("Forwarding keycloak events to: " + serverUri);
